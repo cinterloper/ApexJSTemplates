@@ -11,7 +11,16 @@ var engine = HandlebarsTemplateEngine.create();
 var handler = TemplateHandler.create(engine);
 
 // Serve the dynamic pages
-router.route().handler(handler);
+
+
+router.route().handler(function (routingContext) {
+
+  routingContext.put("testdata", "test data");
+
+  routingContext.next();
+});
+
+router.route().handler(handler.handle);
 
 vertx.createHttpServer().requestHandler(router.accept).listen(8080);
 
